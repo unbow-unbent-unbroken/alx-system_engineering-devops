@@ -1,2 +1,2 @@
 #!/bin/bash
-ls -ls > ls_cwd_state | touch
+ls -ls > ls_cwd_content | touch
