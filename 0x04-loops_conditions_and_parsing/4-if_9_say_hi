@@ -1,9 +1,9 @@
 #!/usr/bin/env bash
-# This is a  Bash script that displays Best School 10 times, but for the 9th iteration, displays Best School and then Hi on a new line.
-count=0
-while [ $count -lt 10 ]; do
+# This is a script that displays "Best School" 10 times, but for the 9th iteration, displays Best School and then Hi on a new line.
+count=1
+while [ $count -le 10 ]; do
 	if [ $count -eq 9 ]; then
-		echo "Hi"
+		echo -e "Best School\nHi"
 	else
 		echo "Best School"
 	fi
