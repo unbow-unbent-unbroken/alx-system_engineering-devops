@@ -1,0 +1,30 @@
+#!/usr/bin/env bash
+
+# Display listening ports using netstat and lsof
+
+echo "Active Internet connections (only servers)"
+echo "Proto Recv-Q Send-Q Local Address           Foreign Address         State       PID/Program name"
+
+# Display listening TCP ports
+netstat -tln | awk '/^tcp/ {print $1, $4, $6}' | while read proto local foreign state; do
+    pid=$(lsof -i :${local##*:} -t 2>/dev/null)
+    program=$(ps -p $pid -o comm= 2>/dev/null)
+    echo "$proto        -      - $local                 $foreign                 $state      $pid/$program"
+done
+
+# Display listening UDP ports
+netstat -uln | awk '/^udp/ {print $1, $4}' | while read proto local; do
+    pid=$(lsof -i :${local##*:} -t 2>/dev/null)
+    program=$(ps -p $pid -o comm= 2>/dev/null)
+    echo "$proto        -      - $local                                $pid/$program"
+done
+
+echo "Active UNIX domain sockets (only servers)"
+echo "Proto RefCnt Flags       Type       State         I-Node   PID/Program name    Path"
+
+# Display listening UNIX domain sockets
+netstat -lx | awk '/^unix/ {print $1, $6}' | while read proto path; do
+    pid=$(lsof $path -t 2>/dev/null)
+    program=$(ps -p $pid -o comm= 2>/dev/null)
+    echo "$proto  2      [ ACC ]     -          LISTENING     -       $pid/$program    $path"
+done
