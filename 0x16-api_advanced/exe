@@ -1,0 +1,10 @@
+#!/bin/bash
+
+chmod u+x *.py
+
+echo "Making file(s) executable loading"
+echo "Loading."
+echo "Loading.."
+echo "Loading..."
+echo "Loading...."
+echo "completed"
